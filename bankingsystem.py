@@ -21,7 +21,3 @@ def create_account ():
 
     accounts.append(account)
     print(f"{account_number} is successfully created!")
-
-
-
-

@@ -1,7 +1,15 @@
 from random import randint
 accounts = []
 def create_account ():
-    account_number = randint(1000,9999)
+    while True:
+        account_number = randint(1000,9999)
+        duplicate_found = False
+        for account in accounts:
+            if account_number == account['acc_num']:
+                duplicate_found = True
+                break
+        if duplicate_found is False:
+            break 
     name = input("Enter account holder's name : ")
     balance = float(input("Deposit minimnun 500 INR : "))
 
@@ -13,4 +21,7 @@ def create_account ():
 
     accounts.append(account)
     print(f"{account_number} is successfully created!")
+
+
+
 

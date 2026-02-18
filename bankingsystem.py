@@ -21,3 +21,16 @@ def create_account ():
 
     accounts.append(account)
     print(f"{account_number} is successfully created!")
+
+
+
+def find_account(account_number):
+    account_found = False
+    for account in accounts:
+        account_found = True
+        if account_number == account['acc_num']:
+            return account
+        
+    if account_found is False:
+        return None
+

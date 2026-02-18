@@ -25,12 +25,21 @@ def create_account ():
 
 
 def find_account(account_number):
-    account_found = False
     for account in accounts:
-        account_found = True
         if account_number == account['acc_num']:
             return account
-        
-    if account_found is False:
-        return None
+    return None
+
+
+def deposit():
+    account_number = int(input("Enter your account number : "))
+    account = find_account(account_number)
+    
+    if account is None:
+        print("Account not found!")
+
+    amount = float(input("Enter amount to deposit : "))
+    account['balance'] += amount
+    print("Deposit Successfull!")
+    print(f"Your updated balance is {account['balance']}")
 

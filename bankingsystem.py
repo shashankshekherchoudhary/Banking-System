@@ -77,7 +77,5 @@ def check_balance():
     
     print(f"Your current balance is: ₹{account['balance']:.2f}")
 
-create_account()
-check_balance()
 
     

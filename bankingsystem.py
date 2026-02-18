@@ -67,5 +67,17 @@ def withdraw():
     print("Withdrawal Successful!")
     print(f"Remaining balance: {account['balance']}")
 
+def check_balance():
+    account_number = int(input("Enter your account number : "))
+    account = find_account(account_number)
+
+    if account is None:
+        print("Account not found!")
+        return
+    
+    print(f"Your current balance is: ₹{account['balance']:.2f}")
+
+create_account()
+check_balance()
 
     

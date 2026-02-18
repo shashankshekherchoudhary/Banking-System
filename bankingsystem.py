@@ -45,3 +45,27 @@ def deposit():
     print("Deposit Successfull!")
     print(f"Your updated balance is {account['balance']}")
 
+def withdraw():
+    account_number = int(input("Enter your account number : "))
+    account = find_account(account_number)
+
+    if account is None:
+        print("Account not found!")
+        return
+
+    amount = float(input("Enter amount to withdraw : "))
+
+    if amount <= 0:
+        print("Amount must be greater than 0!")
+        return
+
+    if amount > account['balance']:
+        print("Insufficient balance!")
+        return
+
+    account['balance'] -= amount
+    print("Withdrawal Successful!")
+    print(f"Remaining balance: {account['balance']}")
+
+
+    

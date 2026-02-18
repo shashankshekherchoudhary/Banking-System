@@ -78,4 +78,29 @@ def check_balance():
     print(f"Your current balance is: ₹{account['balance']:.2f}")
 
 
-    
+def menu():
+    while True:
+        print("\n--- Banking System ---")
+        print("1. Create Account")
+        print("2. Deposit")
+        print("3. Withdraw")
+        print("4. Check Balance")
+        print("5. Exit")
+
+        choice = int(input("Enter your choice: "))
+
+        if choice == 1:
+            create_account()
+        elif choice == 2:
+            deposit()
+        elif choice == 3:
+            withdraw()
+        elif choice == 4:
+            check_balance()
+        elif choice == 5:
+            print("Thank you for banking with us!")
+            break
+        else:
+            print("Invalid choice! Please try again.")
+
+menu()

@@ -37,6 +37,8 @@ def deposit():
     
     if account is None:
         print("Account not found!")
+        return
+    
 
     amount = float(input("Enter amount to deposit : "))
     account['balance'] += amount

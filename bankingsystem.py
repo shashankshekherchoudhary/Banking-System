@@ -69,9 +69,9 @@ def withdraw():
     if amount <= 0:
         print("Amount must be greater than 0!")
         return
-
-    if amount > account['balance']:
-        print("Insufficient balance!")
+    min_balance = 500
+    if amount > account['balance'] - min_balance:
+        print(f"Minimum balance of {min_balance} INR must be maintained!")
         return
 
     account['balance'] -= amount

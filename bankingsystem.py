@@ -11,12 +11,20 @@ def create_account ():
         if duplicate_found is False:
             break 
     name = input("Enter account holder's name : ")
-    balance = float(input("Deposit minimnun 500 INR : "))
+    while True:
+        balance = float(input("Deposit minimum 500 INR : "))
+        if balance < 500:
+            print("Minimum deposit is 500 INR")
+            continue
+        
+        minimum_balance = balance
+        break
+
 
     account = {
         'acc_num' : account_number ,
         'name' : name ,
-        'balance' : balance
+        'balance' : minimum_balance
     }
 
     accounts.append(account)

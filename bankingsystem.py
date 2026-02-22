@@ -1,35 +1,39 @@
 from random import randint
+
 accounts = []
-def create_account ():
+MIN_BALANCE = 500
+
+
+def create_account():
     while True:
-        account_number = randint(1000,9999)
+        account_number = randint(1000, 9999)
         duplicate_found = False
+
         for account in accounts:
             if account_number == account['acc_num']:
                 duplicate_found = True
                 break
-        if duplicate_found is False:
-            break 
-    name = input("Enter account holder's name : ")
+
+        if not duplicate_found:
+            break
+
+    name = input("Enter account holder's name: ")
+
     while True:
-        balance = float(input("Deposit minimum 500 INR : "))
-        if balance < 500:
-            print("Minimum deposit is 500 INR")
+        balance = float(input(f"Deposit minimum {MIN_BALANCE} INR: "))
+        if balance < MIN_BALANCE:
+            print(f"Minimum deposit is {MIN_BALANCE} INR")
             continue
-        
-        minimum_balance = balance
         break
 
-
     account = {
-        'acc_num' : account_number ,
-        'name' : name ,
-        'balance' : minimum_balance
+        'acc_num': account_number,
+        'name': name,
+        'balance': balance
     }
 
     accounts.append(account)
     print(f"{account_number} is successfully created!")
-
 
 
 def find_account(account_number):
@@ -40,52 +44,55 @@ def find_account(account_number):
 
 
 def deposit():
-    account_number = int(input("Enter your account number : "))
+    account_number = int(input("Enter your account number: "))
     account = find_account(account_number)
-    
+
     if account is None:
         print("Account not found!")
         return
-    
 
-    amount = float(input("Enter amount to deposit : "))
+    amount = float(input("Enter amount to deposit: "))
+
     if amount <= 0:
         print(f"{amount} can't be deposited!")
         return
+
     account['balance'] += amount
-    print("Deposit Successfull!")
-    print(f"Your updated balance is {account['balance']}")
+    print("Deposit Successful!")
+    print(f"Your updated balance is ₹{account['balance']:.2f}")
+
 
 def withdraw():
-    account_number = int(input("Enter your account number : "))
+    account_number = int(input("Enter your account number: "))
     account = find_account(account_number)
 
     if account is None:
         print("Account not found!")
         return
 
-    amount = float(input("Enter amount to withdraw : "))
+    amount = float(input("Enter amount to withdraw: "))
 
     if amount <= 0:
         print("Amount must be greater than 0!")
         return
-    min_balance = 500
-    if amount > account['balance'] - min_balance:
-        print(f"Minimum balance of {min_balance} INR must be maintained!")
+
+    if account['balance'] - amount < MIN_BALANCE:
+        print(f"Minimum balance of {MIN_BALANCE} INR must be maintained!")
         return
 
     account['balance'] -= amount
     print("Withdrawal Successful!")
-    print(f"Remaining balance: {account['balance']}")
+    print(f"Remaining balance: ₹{account['balance']:.2f}")
+
 
 def check_balance():
-    account_number = int(input("Enter your account number : "))
+    account_number = int(input("Enter your account number: "))
     account = find_account(account_number)
 
     if account is None:
         print("Account not found!")
         return
-    
+
     print(f"Your current balance is: ₹{account['balance']:.2f}")
 
 
@@ -113,5 +120,6 @@ def menu():
             break
         else:
             print("Invalid choice! Please try again.")
+
 
 menu()

@@ -41,6 +41,9 @@ def deposit():
     
 
     amount = float(input("Enter amount to deposit : "))
+    if amount <= 0:
+        print(f"{amount} can't be deposited!")
+        return
     account['balance'] += amount
     print("Deposit Successfull!")
     print(f"Your updated balance is {account['balance']}")

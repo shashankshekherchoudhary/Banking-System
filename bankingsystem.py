@@ -76,8 +76,13 @@ def deposit():
     if account is None:
         print("Account not found!")
         return
-
-    amount = float(input("Enter amount to deposit: "))
+    while True:
+        try :
+            amount = float(input("Enter amount to deposit: "))
+            break
+        except ValueError:
+            print("Please enter number only!")
+            continue
 
     if amount <= 0:
         print(f"{amount} can't be deposited!")
@@ -101,8 +106,14 @@ def withdraw():
     if account is None:
         print("Account not found!")
         return
+    while True:
+        try:
+            amount = float(input("Enter amount to withdraw: "))
+            break
+        except ValueError:
+            print("Please enter number only!")
+            continue
 
-    amount = float(input("Enter amount to withdraw: "))
 
     if amount <= 0:
         print("Amount must be greater than 0!")
@@ -142,8 +153,13 @@ def menu():
         print("3. Withdraw")
         print("4. Check Balance")
         print("5. Exit")
-
-        choice = int(input("Enter your choice: "))
+        while True:
+            try:
+                choice = int(input("Enter your choice: "))
+                break
+            except ValueError:
+                print("Please enter number only!")
+                continue
 
         if choice == 1:
             create_account()

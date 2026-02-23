@@ -64,7 +64,13 @@ def find_account(account_number):
 
 
 def deposit():
-    account_number = int(input("Enter your account number: "))
+    while True:
+        try :
+            account_number = int(input("Enter your account number: "))
+            break
+        except ValueError:
+            print("Enter number only!")
+            continue
     account = find_account(account_number)
 
     if account is None:
@@ -83,7 +89,13 @@ def deposit():
 
 
 def withdraw():
-    account_number = int(input("Enter your account number: "))
+    while True:
+        try :
+            account_number = int(input("Enter your account number: "))
+            break
+        except ValueError:
+            print("Enter number only!")
+            continue
     account = find_account(account_number)
 
     if account is None:
@@ -106,7 +118,13 @@ def withdraw():
 
 
 def check_balance():
-    account_number = int(input("Enter your account number: "))
+    while True:
+        try :
+            account_number = int(input("Enter your account number: "))
+            break
+        except ValueError:
+            print("Enter number only!")
+            continue
     account = find_account(account_number)
 
     if account is None:

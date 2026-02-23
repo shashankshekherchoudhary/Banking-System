@@ -4,6 +4,51 @@ accounts = []
 MIN_BALANCE = 500
 
 
+# -------------------- Helper Functions --------------------
+
+def get_int_input(message):
+    while True:
+        try:
+            return int(input(message).strip())
+        except ValueError:
+            print("Please enter numbers only!")
+
+
+def get_float_input(message):
+    while True:
+        try:
+            return float(input(message).strip())
+        except ValueError:
+            print("Please enter numbers only!")
+
+
+def find_account(account_number):
+    for account in accounts:
+        if account['acc_num'] == account_number:
+            return account
+    return None
+
+
+def get_valid_account():
+    while True:
+        account_number = get_int_input("Enter your 4-digit account number: ")
+
+        # 4-digit validation
+        if account_number < 1000 or account_number > 9999:
+            print("Account number must be a 4-digit number!")
+            continue
+
+        account = find_account(account_number)
+
+        if account is None:
+            print("Account not found! Please try again.")
+            continue
+
+        return account
+
+
+# -------------------- Core Functions --------------------
+
 def create_account():
     while True:
         account_number = randint(1000, 9999)
@@ -16,31 +61,30 @@ def create_account():
 
         if not duplicate_found:
             break
+
+    # Name validation
     while True:
         name = input("Enter account holder's name: ").strip()
 
         if not name:
             print("Name cannot be empty!")
             continue
+
         if not name.replace(" ", "").isalpha():
             print("Name should contain only alphabets and spaces!")
             continue
 
         break
-        
 
+    # Initial deposit
     while True:
-        try:
-            amount = float(input(f"Deposit minimum {MIN_BALANCE} INR: "))
-            
-            if amount < MIN_BALANCE:
-                print(f"Minimum deposit is {MIN_BALANCE} INR")
-                continue
+        amount = get_float_input(f"Deposit minimum {MIN_BALANCE} INR: ")
 
-            break
+        if amount < MIN_BALANCE:
+            print(f"Minimum deposit is {MIN_BALANCE} INR")
+            continue
 
-        except ValueError:
-            print("Please enter numbers only!")
+        break
 
     account = {
         'acc_num': account_number,
@@ -50,66 +94,29 @@ def create_account():
 
     accounts.append(account)
 
-    print(f"\nAccount successfully created!")
+    print("\nAccount successfully created!")
     print(f"Account Number: {account_number}")
     print(f"Account Holder: {name}")
     print(f"Current Balance: ₹{amount:.2f}")
 
 
-def find_account(account_number):
-    for account in accounts:
-        if account_number == account['acc_num']:
-            return account
-    return None
-
-def get_valid_account():
-    while True:
-        try:
-            account_number = int(input("Enter your account number: ").strip())
-        except ValueError:
-            print("Please enter number only!")
-            continue
-        #4-digit format validation
-        if account_number < 1000 or account_number > 9999:
-            print("Account number must be a 4-digit number!")
-            continue
-        #Existence validation
-        account = find_account(account_number)
-        if account is None:
-            print("Account not found! Please try again.")
-            continue
-        return account
-
-
 def deposit():
     account = get_valid_account()
-    while True:
-        try :
-            amount = float(input("Enter amount to deposit: "))
-            break
-        except ValueError:
-            print("Please enter number only!")
-            continue
+    amount = get_float_input("Enter amount to deposit: ")
 
     if amount <= 0:
-        print(f"{amount} can't be deposited!")
+        print("Amount must be greater than 0!")
         return
 
     account['balance'] += amount
+
     print("Deposit Successful!")
     print(f"Your updated balance is ₹{account['balance']:.2f}")
 
 
 def withdraw():
     account = get_valid_account()
-    while True:
-        try:
-            amount = float(input("Enter amount to withdraw: "))
-            break
-        except ValueError:
-            print("Please enter number only!")
-            continue
-
+    amount = get_float_input("Enter amount to withdraw: ")
 
     if amount <= 0:
         print("Amount must be greater than 0!")
@@ -120,6 +127,7 @@ def withdraw():
         return
 
     account['balance'] -= amount
+
     print("Withdrawal Successful!")
     print(f"Remaining balance: ₹{account['balance']:.2f}")
 
@@ -129,6 +137,8 @@ def check_balance():
     print(f"Your current balance is: ₹{account['balance']:.2f}")
 
 
+# -------------------- Menu --------------------
+
 def menu():
     while True:
         print("\n--- Banking System ---")
@@ -137,13 +147,8 @@ def menu():
         print("3. Withdraw")
         print("4. Check Balance")
         print("5. Exit")
-        while True:
-            try:
-                choice = int(input("Enter your choice: "))
-                break
-            except ValueError:
-                print("Please enter number only!")
-                continue
+
+        choice = get_int_input("Enter your choice: ")
 
         if choice == 1:
             create_account()

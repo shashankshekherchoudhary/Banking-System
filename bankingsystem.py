@@ -16,8 +16,18 @@ def create_account():
 
         if not duplicate_found:
             break
+    while True:
+        name = input("Enter account holder's name: ").strip()
 
-    name = input("Enter account holder's name: ").strip()
+        if not name:
+            print("Name cannot be empty!")
+            continue
+        if not name.replace(" ", "").isalpha():
+            print("Name should contain only alphabets and spaces!")
+            continue
+
+        break
+        
 
     while True:
         try:

@@ -10,30 +10,40 @@ def create_account():
         duplicate_found = False
 
         for account in accounts:
-            if account_number == account['acc_num']:
+            if account['acc_num'] == account_number:
                 duplicate_found = True
                 break
 
         if not duplicate_found:
             break
 
-    name = input("Enter account holder's name: ")
+    name = input("Enter account holder's name: ").strip()
 
     while True:
-        balance = float(input(f"Deposit minimum {MIN_BALANCE} INR: "))
-        if balance < MIN_BALANCE:
-            print(f"Minimum deposit is {MIN_BALANCE} INR")
-            continue
-        break
+        try:
+            amount = float(input(f"Deposit minimum {MIN_BALANCE} INR: "))
+            
+            if amount < MIN_BALANCE:
+                print(f"Minimum deposit is {MIN_BALANCE} INR")
+                continue
+
+            break
+
+        except ValueError:
+            print("Please enter numbers only!")
 
     account = {
         'acc_num': account_number,
         'name': name,
-        'balance': balance
+        'balance': amount
     }
 
     accounts.append(account)
-    print(f"{account_number} is successfully created!")
+
+    print(f"\nAccount successfully created!")
+    print(f"Account Number: {account_number}")
+    print(f"Account Holder: {name}")
+    print(f"Current Balance: ₹{amount:.2f}")
 
 
 def find_account(account_number):

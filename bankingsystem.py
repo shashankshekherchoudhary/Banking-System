@@ -62,20 +62,27 @@ def find_account(account_number):
             return account
     return None
 
+def get_valid_account():
+    while True:
+        try:
+            account_number = int(input("Enter your account number: ").strip())
+        except ValueError:
+            print("Please enter number only!")
+            continue
+        #4-digit format validation
+        if account_number < 1000 or account_number > 9999:
+            print("Account number must be a 4-digit number!")
+            continue
+        #Existence validation
+        account = find_account(account_number)
+        if account is None:
+            print("Account not found! Please try again.")
+            continue
+        return account
+
 
 def deposit():
-    while True:
-        try :
-            account_number = int(input("Enter your account number: "))
-            break
-        except ValueError:
-            print("Enter number only!")
-            continue
-    account = find_account(account_number)
-
-    if account is None:
-        print("Account not found!")
-        return
+    account = get_valid_account()
     while True:
         try :
             amount = float(input("Enter amount to deposit: "))
@@ -94,18 +101,7 @@ def deposit():
 
 
 def withdraw():
-    while True:
-        try :
-            account_number = int(input("Enter your account number: "))
-            break
-        except ValueError:
-            print("Enter number only!")
-            continue
-    account = find_account(account_number)
-
-    if account is None:
-        print("Account not found!")
-        return
+    account = get_valid_account()
     while True:
         try:
             amount = float(input("Enter amount to withdraw: "))
@@ -129,19 +125,7 @@ def withdraw():
 
 
 def check_balance():
-    while True:
-        try :
-            account_number = int(input("Enter your account number: "))
-            break
-        except ValueError:
-            print("Enter number only!")
-            continue
-    account = find_account(account_number)
-
-    if account is None:
-        print("Account not found!")
-        return
-
+    account = get_valid_account()
     print(f"Your current balance is: ₹{account['balance']:.2f}")
 
 

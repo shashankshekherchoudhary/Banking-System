@@ -33,7 +33,6 @@ def get_valid_account():
     while True:
         account_number = get_int_input("Enter your 4-digit account number: ")
 
-        # 4-digit validation
         if account_number < 1000 or account_number > 9999:
             print("Account number must be a 4-digit number!")
             continue
@@ -44,7 +43,26 @@ def get_valid_account():
             print("Account not found! Please try again.")
             continue
 
-        return account
+        # PIN Verification
+        attempts = 3
+        while attempts > 0:
+            entered_pin = input("Enter your PIN: ").strip()
+
+            if not entered_pin.isdigit():
+                print("PIN must contain numbers only!")
+                continue
+
+            if entered_pin == account['pin']:
+                return account
+
+            attempts -= 1
+
+            if attempts == 0:
+                print("Too many incorrect attempts. Returning to menu.\n")
+            else:
+                print(f"Incorrect PIN! Attempts left: {attempts}")
+
+        return None
 
 
 # -------------------- Core Functions --------------------
@@ -76,7 +94,7 @@ def create_account():
 
         break
 
-    # Initial deposit
+    # Initial Deposit
     while True:
         amount = get_float_input(f"Deposit minimum {MIN_BALANCE} INR: ")
 
@@ -86,10 +104,29 @@ def create_account():
 
         break
 
+    # PIN Creation
+    while True:
+        pin = input("Set 4-digit PIN: ").strip()
+
+        if not pin:
+            print("PIN cannot be blank!")
+            continue
+
+        if not pin.isdigit():
+            print("PIN must contain numbers only!")
+            continue
+
+        if len(pin) != 4:
+            print("PIN must be exactly 4 digits!")
+            continue
+
+        break
+
     account = {
         'acc_num': account_number,
         'name': name,
-        'balance': amount
+        'balance': amount,
+        'pin': pin
     }
 
     accounts.append(account)
@@ -102,6 +139,9 @@ def create_account():
 
 def deposit():
     account = get_valid_account()
+    if account is None:
+        return
+
     amount = get_float_input("Enter amount to deposit: ")
 
     if amount <= 0:
@@ -116,6 +156,9 @@ def deposit():
 
 def withdraw():
     account = get_valid_account()
+    if account is None:
+        return
+
     amount = get_float_input("Enter amount to withdraw: ")
 
     if amount <= 0:
@@ -134,6 +177,9 @@ def withdraw():
 
 def check_balance():
     account = get_valid_account()
+    if account is None:
+        return
+
     print(f"Your current balance is: ₹{account['balance']:.2f}")
 
 

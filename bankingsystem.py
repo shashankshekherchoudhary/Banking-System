@@ -126,6 +126,13 @@ def create_account():
         'pin': pin,
         'transaction_history': []
     }
+    # Add opening transaction
+    account['transaction_history'].append({
+    'type': 'account_opening',
+    'amount': amount,
+    'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+    'balance_after': amount
+})
 
     accounts.append(account)
 

@@ -1,0 +1,36 @@
+[
+    {
+        "acc_num": 4466,
+        "name": "Shashank",
+        "balance": 3000.0,
+        "pin": "1911",
+        "transaction_history": [
+            {
+                "type": "account_opening",
+                "amount": 1500.0,
+                "timestamp": "2026-02-25 18:23:47",
+                "balance_after": 1500.0
+            },
+            {
+                "type": "deposit",
+                "amount": 1500.0,
+                "timestamp": "2026-02-25 18:24:04",
+                "balance_after": 3000.0
+            }
+        ]
+    },
+    {
+        "acc_num": 3379,
+        "name": "Siddhi",
+        "balance": 2500.0,
+        "pin": "1710",
+        "transaction_history": [
+            {
+                "type": "account_opening",
+                "amount": 2500.0,
+                "timestamp": "2026-02-25 18:27:48",
+                "balance_after": 2500.0
+            }
+        ]
+    }
+]

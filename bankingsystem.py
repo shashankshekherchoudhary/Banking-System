@@ -1,4 +1,5 @@
 from random import randint
+from datetime import datetime
 
 accounts = []
 MIN_BALANCE = 500
@@ -43,7 +44,6 @@ def get_valid_account():
             print("Account not found! Please try again.")
             continue
 
-        # PIN Verification
         attempts = 3
         while attempts > 0:
             entered_pin = input("Enter your PIN: ").strip()
@@ -80,7 +80,6 @@ def create_account():
         if not duplicate_found:
             break
 
-    # Name validation
     while True:
         name = input("Enter account holder's name: ").strip()
 
@@ -94,7 +93,6 @@ def create_account():
 
         break
 
-    # Initial Deposit
     while True:
         amount = get_float_input(f"Deposit minimum {MIN_BALANCE} INR: ")
 
@@ -104,7 +102,6 @@ def create_account():
 
         break
 
-    # PIN Creation
     while True:
         pin = input("Set 4-digit PIN: ").strip()
 
@@ -126,7 +123,8 @@ def create_account():
         'acc_num': account_number,
         'name': name,
         'balance': amount,
-        'pin': pin
+        'pin': pin,
+        'transaction_history': []
     }
 
     accounts.append(account)
@@ -150,6 +148,13 @@ def deposit():
 
     account['balance'] += amount
 
+    account['transaction_history'].append({
+        'type': 'deposit',
+        'amount': amount,
+        'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        'balance_after': account['balance']
+    })
+
     print("Deposit Successful!")
     print(f"Your updated balance is ₹{account['balance']:.2f}")
 
@@ -171,6 +176,13 @@ def withdraw():
 
     account['balance'] -= amount
 
+    account['transaction_history'].append({
+        'type': 'withdraw',
+        'amount': amount,
+        'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        'balance_after': account['balance']
+    })
+
     print("Withdrawal Successful!")
     print(f"Remaining balance: ₹{account['balance']:.2f}")
 
@@ -183,6 +195,20 @@ def check_balance():
     print(f"Your current balance is: ₹{account['balance']:.2f}")
 
 
+def view_transactions():
+    account = get_valid_account()
+    if account is None:
+        return
+
+    if not account['transaction_history']:
+        print("No transactions found.")
+        return
+
+    print("\n--- Transaction History ---")
+    for txn in account['transaction_history']:
+        print(f"{txn['timestamp']} | {txn['type'].title()} | ₹{txn['amount']} | Balance: ₹{txn['balance_after']:.2f}")
+
+
 # -------------------- Menu --------------------
 
 def menu():
@@ -192,7 +218,8 @@ def menu():
         print("2. Deposit")
         print("3. Withdraw")
         print("4. Check Balance")
-        print("5. Exit")
+        print("5. View Transactions")
+        print("6. Exit")
 
         choice = get_int_input("Enter your choice: ")
 
@@ -205,6 +232,8 @@ def menu():
         elif choice == 4:
             check_balance()
         elif choice == 5:
+            view_transactions()
+        elif choice == 6:
             print("Thank you for banking with us!")
             break
         else:

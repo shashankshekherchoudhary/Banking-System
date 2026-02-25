@@ -1,8 +1,31 @@
 from random import randint
 from datetime import datetime
+import json
+import os
 
 accounts = []
 MIN_BALANCE = 500
+FILE_NAME = "accounts.json"
+
+
+# -------------------- JSON Persistence --------------------
+
+def load_accounts():
+    global accounts
+
+    if os.path.exists(FILE_NAME):
+        with open(FILE_NAME, "r") as file:
+            try:
+                accounts = json.load(file)
+            except json.JSONDecodeError:
+                accounts = []
+    else:
+        accounts = []
+
+
+def save_accounts():
+    with open(FILE_NAME, "w") as file:
+        json.dump(accounts, file, indent=4)
 
 
 # -------------------- Helper Functions --------------------
@@ -126,15 +149,17 @@ def create_account():
         'pin': pin,
         'transaction_history': []
     }
+
     # Add opening transaction
     account['transaction_history'].append({
-    'type': 'account_opening',
-    'amount': amount,
-    'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-    'balance_after': amount
-})
+        'type': 'account_opening',
+        'amount': amount,
+        'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        'balance_after': amount
+    })
 
     accounts.append(account)
+    save_accounts()
 
     print("\nAccount successfully created!")
     print(f"Account Number: {account_number}")
@@ -161,6 +186,8 @@ def deposit():
         'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         'balance_after': account['balance']
     })
+
+    save_accounts()
 
     print("Deposit Successful!")
     print(f"Your updated balance is ₹{account['balance']:.2f}")
@@ -189,6 +216,8 @@ def withdraw():
         'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         'balance_after': account['balance']
     })
+
+    save_accounts()
 
     print("Withdrawal Successful!")
     print(f"Remaining balance: ₹{account['balance']:.2f}")
@@ -247,4 +276,7 @@ def menu():
             print("Invalid choice! Please try again.")
 
 
+# -------------------- Start Program --------------------
+
+load_accounts()
 menu()
